@@ -12,15 +12,13 @@ public class Size {
 
     private Integer id;
     private String ten;
-    private boolean trangThai;
 
     public Size() {
     }
 
-    public Size(Integer id, String ten, boolean trangThai) {
+    public Size(Integer id, String ten) {
         this.id = id;
         this.ten = ten;
-        this.trangThai = trangThai;
     }
 
     public Size(String ten) {
@@ -41,14 +39,6 @@ public class Size {
 
     public void setTen(String ten) {
         this.ten = ten;
-    }
-
-    public boolean isTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(boolean trangThai) {
-        this.trangThai = trangThai;
     }
 
     @Override

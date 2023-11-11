@@ -21,14 +21,12 @@ public class ChatLieuService extends SellingApplicationImpl<ChatLieu, Integer> {
     public void insert(ChatLieu entity) {
         String sql = """
                         INSERT INTO [dbo].[ChatLieu]
-                                   ([Ten]
-                                   ,[TrangThai])
-                             VALUES (?, ?)
+                                   ([Ten])
+                             VALUES (?)
                         """;
 
         JdbcHelper.update(sql,
-                entity.getTen(),
-                entity.isTrangThai());
+                entity.getTen());
     }
 
     @Override
@@ -36,13 +34,11 @@ public class ChatLieuService extends SellingApplicationImpl<ChatLieu, Integer> {
         String sql = """
                         UPDATE [dbo].[ChatLieu]
                            SET [Ten] = ?
-                              ,[TrangThai] = ?
                          WHERE ID = ?
                         """;
 
         JdbcHelper.update(sql,
                 entity.getTen(),
-                entity.isTrangThai(),
                 entity.getId());
     }
 
@@ -77,7 +73,6 @@ public class ChatLieuService extends SellingApplicationImpl<ChatLieu, Integer> {
                 ChatLieu chatLieu = new ChatLieu();
                 chatLieu.setId(rs.getInt("ID"));
                 chatLieu.setTen(rs.getString("Ten"));
-                chatLieu.setTrangThai(rs.getBoolean("TrangThai"));
                 list.add(chatLieu);
             }
             rs.getStatement().getConnection().close();
@@ -113,20 +108,18 @@ public class ChatLieuService extends SellingApplicationImpl<ChatLieu, Integer> {
         return this.selectBySql(selectByStatus, status);
     }
 
-    public List<ChatLieu> searchKeyWord(String keyWord, int page, int limit) {
-        String selectBykeyWordOffset = """
+    public List<ChatLieu> selectPages(int page, int limit) {
+        String sql = """
                        SELECT * 
                        FROM 
                        (
                            SELECT * 
                            FROM ChatLieu
-                           WHERE Ten LIKE ?
                        ) AS FilteredResults
                        ORDER BY ID
                        OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
                        """;
-        return this.selectBySql(selectBykeyWordOffset,
-                "%" + keyWord + "%%", (page - 1) * limit, limit);
+        return this.selectBySql(sql, (page - 1) * limit, limit);
     }
 
     public List<ChatLieu> filterByStatus(Boolean status, int page, int limit) {

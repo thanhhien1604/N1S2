@@ -21,14 +21,12 @@ public class ThuongHieuService extends SellingApplicationImpl<ThuongHieu, Intege
     public void insert(ThuongHieu entity) {
         String sql = """
                         INSERT INTO [dbo].[ThuongHieu]
-                                   ([Ten]
-                                   ,[TrangThai])
-                             VALUES (?, ?)
+                                   ([Ten])
+                             VALUES (?)
                         """;
 
         JdbcHelper.update(sql,
-                entity.getTen(),
-                entity.getTrangThai());
+                entity.getTen());
     }
 
     @Override
@@ -36,13 +34,11 @@ public class ThuongHieuService extends SellingApplicationImpl<ThuongHieu, Intege
         String sql = """
                         UPDATE [dbo].[ThuongHieu]
                            SET [Ten] = ?
-                              ,[TrangThai] = ?
                          WHERE ID = ?
                         """;
 
         JdbcHelper.update(sql,
                 entity.getTen(),
-                entity.getTrangThai(),
                 entity.getId());
     }
 
@@ -77,7 +73,6 @@ public class ThuongHieuService extends SellingApplicationImpl<ThuongHieu, Intege
                 ThuongHieu th = new ThuongHieu();
                 th.setId(rs.getInt("ID"));
                 th.setTen(rs.getString("Ten"));
-                th.setTrangThai(rs.getBoolean("TrangThai"));
                 list.add(th);
             }
             rs.getStatement().getConnection().close();
@@ -95,53 +90,18 @@ public class ThuongHieuService extends SellingApplicationImpl<ThuongHieu, Intege
         return this.selectBySql(selectAll);
     }
 
-    public List<ThuongHieu> selectByKeyWord(String keyWord) {
-        String selectByKeyWord = """
-                        SELECT * 
-                        FROM ThuongHieu
-                        WHERE Ten LIKE ?
-                          """;
-        return this.selectBySql(selectByKeyWord, "%" + keyWord + "%%");
-    }
-
-    public List<ThuongHieu> selectByStatus(Boolean status) {
-        String selectByStatus = """
-                        SELECT * 
-                        FROM ThuongHieu
-                        WHERE TrangThai = ?
-                          """;
-        return this.selectBySql(selectByStatus, status);
-    }
-
-    public List<ThuongHieu> searchKeyWord(String keyWord, int page, int limit) {
-        String selectBykeyWordOffset = """
+    public List<ThuongHieu> searchPages(int page, int limit) {
+        String sql = """
                        SELECT * 
                        FROM 
                        (
                            SELECT * 
                            FROM ThuongHieu
-                           WHERE Ten LIKE ?
                        ) AS FilteredResults
                        ORDER BY ID
                        OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
                        """;
-        return this.selectBySql(selectBykeyWordOffset,
-                "%" + keyWord + "%%", (page - 1) * limit, limit);
+        return this.selectBySql(sql, (page - 1) * limit, limit);
     }
 
-    public List<ThuongHieu> filterByStatus(Boolean status, int page, int limit) {
-        String selectByStatusOffset = """
-                       SELECT * 
-                       FROM 
-                       (
-                           SELECT * 
-                           FROM ThuongHieu
-                           WHERE TrangThai = ?
-                       ) AS FilteredResults
-                       ORDER BY ID
-                       OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
-                       """;
-        return this.selectBySql(selectByStatusOffset,
-                status, (page - 1) * limit, limit);
-    }
 }

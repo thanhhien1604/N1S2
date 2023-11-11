@@ -506,6 +506,9 @@
           <Image iconType="3" name="/icon/adds.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddSizeActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnMauSac">
       <Properties>
@@ -513,6 +516,9 @@
           <Image iconType="3" name="/icon/adds.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMauSacActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAddChatLieu">
       <Properties>
@@ -520,6 +526,9 @@
           <Image iconType="3" name="/icon/adds.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddChatLieuActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAd&#x111;anhMuc">
       <Properties>
@@ -527,6 +536,9 @@
           <Image iconType="3" name="/icon/adds.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAd&#x111;anhMucActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnAdd">
       <Properties>
@@ -665,6 +677,9 @@
           <Image iconType="3" name="/icon/adds.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAd&#x111;anhMuc1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>

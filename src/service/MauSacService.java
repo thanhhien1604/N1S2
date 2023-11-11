@@ -21,14 +21,12 @@ public class MauSacService extends SellingApplicationImpl<MauSac, Integer> {
     public void insert(MauSac entity) {
         String sql = """
                         INSERT INTO [dbo].[MauSac]
-                                   ([Ten]
-                                   ,[TrangThai])
-                             VALUES (?, ?)
+                                   ([Ten])
+                             VALUES (?)
                         """;
 
         JdbcHelper.update(sql,
-                entity.getTen(),
-                entity.isTrangThai());
+                entity.getTen());
     }
 
     @Override
@@ -36,13 +34,11 @@ public class MauSacService extends SellingApplicationImpl<MauSac, Integer> {
         String sql = """
                         UPDATE [dbo].[MauSac]
                            SET [Ten] = ?
-                              ,[TrangThai] = ?
                          WHERE ID = ?
                         """;
 
         JdbcHelper.update(sql,
                 entity.getTen(),
-                entity.isTrangThai(),
                 entity.getId());
     }
 
@@ -77,7 +73,6 @@ public class MauSacService extends SellingApplicationImpl<MauSac, Integer> {
                 MauSac ms = new MauSac();
                 ms.setId(rs.getInt("ID"));
                 ms.setTen(rs.getString("Ten"));
-                ms.setTrangThai(rs.getBoolean("TrangThai"));
                 list.add(ms);
             }
             rs.getStatement().getConnection().close();
@@ -113,20 +108,18 @@ public class MauSacService extends SellingApplicationImpl<MauSac, Integer> {
         return this.selectBySql(selectByStatus, status);
     }
 
-    public List<MauSac> searchKeyWord(String keyWord, int page, int limit) {
-        String selectBykeyWordOffset = """
+    public List<MauSac> selectPages(int page, int limit) {
+        String sql = """
                        SELECT * 
                        FROM 
                        (
                            SELECT * 
                            FROM MauSac
-                           WHERE Ten LIKE ?
                        ) AS FilteredResults
                        ORDER BY ID
                        OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
                        """;
-        return this.selectBySql(selectBykeyWordOffset,
-                "%" + keyWord + "%%", (page - 1) * limit, limit);
+        return this.selectBySql(sql, (page - 1) * limit, limit);
     }
 
     public List<MauSac> filterByStatus(Boolean status, int page, int limit) {

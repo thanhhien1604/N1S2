@@ -12,15 +12,13 @@ public class ChatLieu {
 
     private Integer id;
     private String ten;
-    private boolean trangThai;
 
     public ChatLieu() {
     }
 
-    public ChatLieu(Integer id, String ten, boolean trangThai) {
+    public ChatLieu(Integer id, String ten) {
         this.id = id;
         this.ten = ten;
-        this.trangThai = trangThai;
     }
 
     public ChatLieu(String ten) {
@@ -41,14 +39,6 @@ public class ChatLieu {
 
     public void setTen(String ten) {
         this.ten = ten;
-    }
-
-    public boolean isTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(boolean trangThai) {
-        this.trangThai = trangThai;
     }
 
     @Override

@@ -21,14 +21,12 @@ public class DanhMucService extends SellingApplicationImpl<DanhMuc, Integer> {
     public void insert(DanhMuc entity) {
         String sql = """
                         INSERT INTO [dbo].[DanhMuc]
-                                   ([Ten]
-                                   ,[TrangThai])
-                             VALUES (?, ?)
+                                   ([Ten])
+                             VALUES (?)
                         """;
 
         JdbcHelper.update(sql,
-                entity.getTen(),
-                entity.isTrangThai());
+                entity.getTen());
     }
 
     @Override
@@ -36,13 +34,11 @@ public class DanhMucService extends SellingApplicationImpl<DanhMuc, Integer> {
         String sql = """
                         UPDATE [dbo].[DanhMuc]
                            SET [Ten] = ?
-                              ,[TrangThai] = ?
                          WHERE ID = ?
                         """;
 
         JdbcHelper.update(sql,
                 entity.getTen(),
-                entity.isTrangThai(),
                 entity.getId());
     }
 
@@ -77,7 +73,6 @@ public class DanhMucService extends SellingApplicationImpl<DanhMuc, Integer> {
                 DanhMuc danhMuc = new DanhMuc();
                 danhMuc.setId(rs.getInt("ID"));
                 danhMuc.setTen(rs.getString("Ten"));
-                danhMuc.setTrangThai(rs.getBoolean("TrangThai"));
                 list.add(danhMuc);
             }
             rs.getStatement().getConnection().close();
@@ -113,20 +108,18 @@ public class DanhMucService extends SellingApplicationImpl<DanhMuc, Integer> {
         return this.selectBySql(selectByStatus, status);
     }
 
-    public List<DanhMuc> searchKeyWord(String keyWord, int page, int limit) {
-        String selectBykeyWordOffset = """
+    public List<DanhMuc> selectPages(int page, int limit) {
+        String sql = """
                        SELECT * 
                        FROM 
                        (
                            SELECT * 
                            FROM DanhMuc
-                           WHERE Ten LIKE ?
                        ) AS FilteredResults
                        ORDER BY ID
                        OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
                        """;
-        return this.selectBySql(selectBykeyWordOffset,
-                "%" + keyWord + "%%", (page - 1) * limit, limit);
+        return this.selectBySql(sql, (page - 1) * limit, limit);
     }
 
     public List<DanhMuc> filterByStatus(Boolean status, int page, int limit) {

@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -109,16 +111,19 @@ public class Form_SanPham extends javax.swing.JPanel {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 fillTable();
+                firstPage();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
                 fillTable();
+                firstPage();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
                 fillTable();
+                firstPage();
             }
         });
     }
@@ -379,6 +384,10 @@ public class Form_SanPham extends javax.swing.JPanel {
     }
 
     private void insert_sp_spct() {
+        check = JOptionPane.showConfirmDialog(this, "Xác nhận thêm dữ liệu?");
+        if (check != JOptionPane.YES_OPTION) {
+            return;
+        }
         List<SanPham> list = spService.selectAll();
         for (SanPham sanPham : list) {
             if (txtMaSP.getText().trim().equalsIgnoreCase(sanPham.getMa())) {
@@ -406,7 +415,6 @@ public class Form_SanPham extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi truy vấn dữ liệu sp!");
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -534,12 +542,32 @@ public class Form_SanPham extends javax.swing.JPanel {
         cbbDanhMuc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         btnAddSize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/adds.png"))); // NOI18N
+        btnAddSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSizeActionPerformed(evt);
+            }
+        });
 
         btnMauSac.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/adds.png"))); // NOI18N
+        btnMauSac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMauSacActionPerformed(evt);
+            }
+        });
 
         btnAddChatLieu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/adds.png"))); // NOI18N
+        btnAddChatLieu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddChatLieuActionPerformed(evt);
+            }
+        });
 
         btnAdđanhMuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/adds.png"))); // NOI18N
+        btnAdđanhMuc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdđanhMucActionPerformed(evt);
+            }
+        });
 
         btnAdd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add.png"))); // NOI18N
@@ -601,6 +629,11 @@ public class Form_SanPham extends javax.swing.JPanel {
         jLabel14.setText("Thương hiệu");
 
         btnAdđanhMuc1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/adds.png"))); // NOI18N
+        btnAdđanhMuc1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdđanhMuc1ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel5.setText("Mã SP:");
@@ -878,6 +911,50 @@ public class Form_SanPham extends javax.swing.JPanel {
         this.clean();
     }//GEN-LAST:event_btnMoiActionPerformed
 
+    private void btnAddSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSizeActionPerformed
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (frame != null) {
+            new SizeJDialog(frame, true).setVisible(true);
+            this.fillCbbSize();
+        }
+    }//GEN-LAST:event_btnAddSizeActionPerformed
+
+    private void btnAdđanhMuc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdđanhMuc1ActionPerformed
+        // TODO add your handling code here:
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (frame != null) {
+            new ThuongHieuJDialog(frame, true).setVisible(true);
+            this.fillCbbThuongHieu();
+        }
+    }//GEN-LAST:event_btnAdđanhMuc1ActionPerformed
+
+    private void btnAddChatLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddChatLieuActionPerformed
+        // TODO add your handling code here:
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (frame != null) {
+            new ChatLieuJDialog(frame, true).setVisible(true);
+            this.fillCbbChatLieu();
+        }
+    }//GEN-LAST:event_btnAddChatLieuActionPerformed
+
+    private void btnMauSacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMauSacActionPerformed
+        // TODO add your handling code here:
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (frame != null) {
+            new MauSacJDialog(frame, true).setVisible(true);
+            this.fillCbbMauSac();
+        }
+    }//GEN-LAST:event_btnMauSacActionPerformed
+
+    private void btnAdđanhMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdđanhMucActionPerformed
+        // TODO add your handling code here:
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (frame != null) {
+            new DanhMucJDialog(frame, true).setVisible(true);
+            this.fillCbbDanhMuc();
+        }
+    }//GEN-LAST:event_btnAdđanhMucActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -922,4 +999,5 @@ public class Form_SanPham extends javax.swing.JPanel {
     private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtTenSP;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -12,15 +12,13 @@ public class ThuongHieu {
 
     private Integer id;
     private String ten;
-    private boolean trangThai;
 
     public ThuongHieu() {
     }
 
-    public ThuongHieu(Integer id, String ten, boolean trangThai) {
+    public ThuongHieu(Integer id, String ten) {
         this.id = id;
         this.ten = ten;
-        this.trangThai = trangThai;
     }
 
     public ThuongHieu(String ten) {
@@ -41,21 +39,6 @@ public class ThuongHieu {
 
     public void setTen(String ten) {
         this.ten = ten;
-    }
-
-    public boolean getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(boolean trangThai) {
-        this.trangThai = trangThai;
-    }
-
-    public String showStatus() {
-        if (trangThai == true) {
-            return "Đang hoạt động";
-        }
-        return "Ngừng bán";
     }
 
     @Override

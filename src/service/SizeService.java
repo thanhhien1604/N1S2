@@ -21,14 +21,12 @@ public class SizeService extends SellingApplicationImpl<Size, Integer> {
     public void insert(Size entity) {
         String sql = """
                         INSERT INTO [dbo].[Size]
-                                   ([Ten]
-                                   ,[TrangThai])
-                             VALUES (?, ?)
+                                   ([Ten])
+                             VALUES (?)
                         """;
 
         JdbcHelper.update(sql,
-                entity.getTen(),
-                entity.isTrangThai());
+                entity.getTen());
     }
 
     @Override
@@ -36,13 +34,11 @@ public class SizeService extends SellingApplicationImpl<Size, Integer> {
         String sql = """
                         UPDATE [dbo].[Size]
                            SET [Ten] = ?
-                              ,[TrangThai] = ?
                          WHERE ID = ?
                         """;
 
         JdbcHelper.update(sql,
                 entity.getTen(),
-                entity.isTrangThai(),
                 entity.getId());
     }
 
@@ -77,7 +73,6 @@ public class SizeService extends SellingApplicationImpl<Size, Integer> {
                 Size th = new Size();
                 th.setId(rs.getInt("ID"));
                 th.setTen(rs.getString("Ten"));
-                th.setTrangThai(rs.getBoolean("TrangThai"));
                 list.add(th);
             }
             rs.getStatement().getConnection().close();
@@ -113,20 +108,18 @@ public class SizeService extends SellingApplicationImpl<Size, Integer> {
         return this.selectBySql(selectByStatus, status);
     }
 
-    public List<Size> searchKeyWord(String keyWord, int page, int limit) {
-        String selectBykeyWordOffset = """
+    public List<Size> selectPages(int page, int limit) {
+        String sql = """
                        SELECT * 
                        FROM 
                        (
                            SELECT * 
                            FROM Size
-                           WHERE Ten LIKE ?
                        ) AS FilteredResults
                        ORDER BY ID
                        OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
                        """;
-        return this.selectBySql(selectBykeyWordOffset,
-                "%" + keyWord + "%%", (page - 1) * limit, limit);
+        return this.selectBySql(sql, (page - 1) * limit, limit);
     }
 
     public List<Size> filterByStatus(Boolean status, int page, int limit) {

@@ -12,15 +12,13 @@ public class DanhMuc {
 
     private Integer id;
     private String ten;
-    private boolean trangThai;
 
     public DanhMuc() {
     }
 
-    public DanhMuc(Integer id, String ten, boolean trangThai) {
+    public DanhMuc(Integer id, String ten) {
         this.id = id;
         this.ten = ten;
-        this.trangThai = trangThai;
     }
 
     public DanhMuc(String ten) {
@@ -41,14 +39,6 @@ public class DanhMuc {
 
     public void setTen(String ten) {
         this.ten = ten;
-    }
-
-    public boolean isTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(boolean trangThai) {
-        this.trangThai = trangThai;
     }
 
     @Override
