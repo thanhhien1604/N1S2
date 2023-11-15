@@ -76,6 +76,7 @@ public class VoucherCTService extends SellingApplicationImpl<VoucherCT, Integer>
                      SELECT     dbo.VoucherCT.ID, 
                                 dbo.Voucher.Ma AS MaVoucher, 
                                 dbo.NhanVien.Ma AS MaNV, 
+                                dbo.NhanVien.Ten AS TenNV,
                                 dbo.Voucher.Ten, 
                                 dbo.VoucherCT.NgayBatDau, 
                                 dbo.VoucherCT.NgayHetHan, 
@@ -109,11 +110,11 @@ public class VoucherCTService extends SellingApplicationImpl<VoucherCT, Integer>
                 vcct.setNgayHetHan(rs.getDate("NgayHetHan"));
                 vcct.setSoLuong(rs.getInt("SoLuong"));
                 vcct.setKieuGiam(rs.getBoolean("KieuGiam"));
+                vcct.setTrangThai(rs.getBoolean("TrangThai"));
                 vcct.setVc(new Voucher(
                         rs.getString("Ten"),
                         rs.getString("MaVoucher"),
-                        rs.getBoolean("TrangThai"),
-                        new NhanVien(rs.getString("MaNV"))
+                        new NhanVien(rs.getString("MaNV"), rs.getString("TenNV"))
                 ));
 
                 list.add(vcct);
@@ -121,7 +122,7 @@ public class VoucherCTService extends SellingApplicationImpl<VoucherCT, Integer>
             rs.getStatement().getConnection().close();
             return list;
         } catch (SQLException e) {
-            throw new RuntimeException();
+             throw new RuntimeException();
         }
     }
 
@@ -131,12 +132,13 @@ public class VoucherCTService extends SellingApplicationImpl<VoucherCT, Integer>
                      SELECT     dbo.VoucherCT.ID, 
                                 dbo.Voucher.Ma AS MaVoucher, 
                                 dbo.NhanVien.Ma AS MaNV, 
+                                dbo.NhanVien.Ten AS TenNV,
                                 dbo.Voucher.Ten, 
                                 dbo.VoucherCT.NgayBatDau, 
                                 dbo.VoucherCT.NgayHetHan, 
                                 dbo.VoucherCT.SoLuong, 
                                 dbo.VoucherCT.KieuGiam, 
-                                dbo.Voucher.TrangThai
+                                dbo.VoucherCT.TrangThai
                      FROM           dbo.NhanVien INNER JOIN dbo.Voucher
                                     ON dbo.NhanVien.ID = dbo.Voucher.ID_NhanVien 
                                     INNER JOIN dbo.VoucherCT
@@ -150,12 +152,13 @@ public class VoucherCTService extends SellingApplicationImpl<VoucherCT, Integer>
                            SELECT   dbo.VoucherCT.ID, 
                                     dbo.Voucher.Ma AS MaVoucher, 
                                     dbo.NhanVien.Ma AS MaNV, 
+                                    dbo.NhanVien.Ten AS TenNV,
                                     dbo.Voucher.Ten, 
                                     dbo.VoucherCT.NgayBatDau, 
                                     dbo.VoucherCT.NgayHetHan, 
                                     dbo.VoucherCT.SoLuong, 
                                     dbo.VoucherCT.KieuGiam, 
-                                    dbo.Voucher.TrangThai
+                                    dbo.VoucherCT.TrangThai
                          FROM           dbo.NhanVien INNER JOIN dbo.Voucher
                                         ON dbo.NhanVien.ID = dbo.Voucher.ID_NhanVien 
                                         INNER JOIN dbo.VoucherCT
@@ -170,17 +173,18 @@ public class VoucherCTService extends SellingApplicationImpl<VoucherCT, Integer>
                         SELECT  dbo.VoucherCT.ID, 
                                 dbo.Voucher.Ma AS MaVoucher, 
                                 dbo.NhanVien.Ma AS MaNV, 
+                                dbo.NhanVien.Ten AS TenNV,
                                 dbo.Voucher.Ten, 
                                 dbo.VoucherCT.NgayBatDau, 
                                 dbo.VoucherCT.NgayHetHan, 
                                 dbo.VoucherCT.SoLuong, 
                                 dbo.VoucherCT.KieuGiam, 
-                                dbo.Voucher.TrangThai
+                                dbo.VoucherCT.TrangThai
                         FROM        dbo.NhanVien INNER JOIN dbo.Voucher
                                     ON dbo.NhanVien.ID = dbo.Voucher.ID_NhanVien 
                                     INNER JOIN dbo.VoucherCT
                                     ON dbo.Voucher.ID = dbo.VoucherCT.ID_Voucher
-                 WHERE  dbo.Voucher.TrangThai = ISNULL(?, dbo.Voucher.TrangThai)
+                 WHERE  dbo.VoucherCT.TrangThai = ISNULL(?, dbo.VoucherCT.TrangThai)
                      AND dbo.VoucherCT.SoLuong = ISNULL(?, dbo.VoucherCT.SoLuong)
                      AND ? BETWEEN YEAR(dbo.VoucherCT.NgayBatDau) AND YEAR(dbo.VoucherCT.NgayHetHan)
                      AND dbo.Voucher.ID = ?
@@ -195,13 +199,14 @@ public class VoucherCTService extends SellingApplicationImpl<VoucherCT, Integer>
                      (
                               SELECT    dbo.VoucherCT.ID, 
                                         dbo.Voucher.Ma AS MaVoucher, 
-                                        dbo.NhanVien.Ma AS MaNV, 
+                                        dbo.NhanVien.Ma AS MaNV,
+                                        dbo.NhanVien.Ten AS TenNV,
                                         dbo.Voucher.Ten, 
                                         dbo.VoucherCT.NgayBatDau, 
                                         dbo.VoucherCT.NgayHetHan, 
                                         dbo.VoucherCT.SoLuong, 
                                         dbo.VoucherCT.KieuGiam, 
-                                        dbo.Voucher.TrangThai
+                                        dbo.VoucherCT.TrangThai
                               FROM          dbo.NhanVien INNER JOIN dbo.Voucher
                                             ON dbo.NhanVien.ID = dbo.Voucher.ID_NhanVien 
                                             INNER JOIN dbo.VoucherCT
@@ -222,18 +227,19 @@ public class VoucherCTService extends SellingApplicationImpl<VoucherCT, Integer>
                      (
                               SELECT    dbo.VoucherCT.ID, 
                                         dbo.Voucher.Ma AS MaVoucher, 
-                                        dbo.NhanVien.Ma AS MaNV, 
+                                        dbo.NhanVien.Ma AS MaNV,
+                                        dbo.NhanVien.Ten AS TenNV,
                                         dbo.Voucher.Ten, 
                                         dbo.VoucherCT.NgayBatDau, 
                                         dbo.VoucherCT.NgayHetHan, 
                                         dbo.VoucherCT.SoLuong, 
                                         dbo.VoucherCT.KieuGiam, 
-                                        dbo.Voucher.TrangThai
+                                        dbo.VoucherCT.TrangThai
                               FROM          dbo.NhanVien INNER JOIN dbo.Voucher
                                             ON dbo.NhanVien.ID = dbo.Voucher.ID_NhanVien 
                                             INNER JOIN dbo.VoucherCT
                                             ON dbo.Voucher.ID = dbo.VoucherCT.ID_Voucher
-                        WHERE  dbo.Voucher.TrangThai = ISNULL(?, dbo.Voucher.TrangThai)
+                        WHERE  dbo.VoucherCT.TrangThai = ISNULL(?, dbo.VoucherCT.TrangThai)
                                 AND dbo.VoucherCT.SoLuong = ISNULL(?, dbo.VoucherCT.SoLuong)
                                 AND ? BETWEEN YEAR(dbo.VoucherCT.NgayBatDau) AND YEAR(dbo.VoucherCT.NgayHetHan)
                                 AND dbo.Voucher.ID = ?

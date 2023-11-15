@@ -17,28 +17,23 @@ public class Voucher {
     private String ma;
     private String ten;
     private Date ngayTao;
-    private String ghiChu;
-    private Boolean trangThai;
     private NhanVien nv;
 
     public Voucher() {
     }
 
-    public Voucher(Integer id, Integer id_NV, String ma, String ten, Date ngayTao, String ghiChu, Boolean trangThai, NhanVien nv) {
+    public Voucher(Integer id, Integer id_NV, String ma, String ten, Date ngayTao, NhanVien nv) {
         this.id = id;
         this.id_NV = id_NV;
         this.ma = ma;
         this.ten = ten;
         this.ngayTao = ngayTao;
-        this.ghiChu = ghiChu;
-        this.trangThai = trangThai;
         this.nv = nv;
     }
 
-    public Voucher(String ten, String ma, Boolean trangThai, NhanVien nv) {
+    public Voucher(String ten, String ma, NhanVien nv) {
         this.ten = ten;
         this.ma = ma;
-        this.trangThai = trangThai;
         this.nv = nv;
     }
 
@@ -72,22 +67,6 @@ public class Voucher {
 
     public void setNgayTao(Date ngayTao) {
         this.ngayTao = ngayTao;
-    }
-
-    public String getGhiChu() {
-        return ghiChu;
-    }
-
-    public void setGhiChu(String ghiChu) {
-        this.ghiChu = ghiChu;
-    }
-
-    public Boolean getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(Boolean trangThai) {
-        this.trangThai = trangThai;
     }
 
     public String getMa() {

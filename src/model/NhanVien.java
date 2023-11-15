@@ -4,7 +4,6 @@
  */
 package model;
 
-
 /**
  *
  * @author ledin
@@ -34,8 +33,9 @@ public class NhanVien {
         this.trangThai = trangThai;
     }
 
-    public NhanVien(String ma) {
+    public NhanVien(String ma, String ten) {
         this.ma = ma;
+        this.ten = ten;
     }
 
     public Integer getId() {

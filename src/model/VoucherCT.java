@@ -17,18 +17,20 @@ public class VoucherCT {
     private Date ngayHetHan;
     private Integer soLuong;
     private Boolean kieuGiam;
+    private Boolean trangThai;
     private Integer id_voucher;
     private Voucher vc;
 
     public VoucherCT() {
     }
 
-    public VoucherCT(Integer id, Date ngayBatDau, Date ngayHetHan, Integer soLuong, Boolean kieuGiam, Integer id_voucher, Voucher vc) {
+    public VoucherCT(Integer id, Date ngayBatDau, Date ngayHetHan, Integer soLuong, Boolean kieuGiam, Boolean trangThai, Integer id_voucher, Voucher vc) {
         this.id = id;
         this.ngayBatDau = ngayBatDau;
         this.ngayHetHan = ngayHetHan;
         this.soLuong = soLuong;
         this.kieuGiam = kieuGiam;
+        this.trangThai = trangThai;
         this.id_voucher = id_voucher;
         this.vc = vc;
     }
@@ -87,6 +89,14 @@ public class VoucherCT {
 
     public void setVc(Voucher vc) {
         this.vc = vc;
+    }
+
+    public Boolean getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(Boolean trangThai) {
+        this.trangThai = trangThai;
     }
 
 }

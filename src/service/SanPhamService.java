@@ -98,7 +98,7 @@ public class SanPhamService extends SellingApplicationImpl<SanPham, Integer> {
                 sp.setMa(rs.getString("Ma"));
                 sp.setTen(rs.getString("Ten"));
                 sp.setNgayThem(rs.getDate("NgayThem"));
-                sp.setNhanVien(new NhanVien(rs.getString("MaNV")));
+                sp.setNhanVien(new NhanVien(rs.getString("MaNV"), rs.getString("TenNV")));
                 sp.setThuongHieu(new ThuongHieu(rs.getString("ThuongHieu")));
                 sp.setDanhMuc(new DanhMuc(rs.getString("DanhMuc")));
                 list.add(sp);
@@ -117,6 +117,7 @@ public class SanPhamService extends SellingApplicationImpl<SanPham, Integer> {
                             sp.ID,
                             sp.Ma,
                             nv.Ma AS MaNV,
+                            nv.Ten AS TenNV,
                             sp.Ten, 
                             sp.NgayThem,
                             th.Ten AS ThuongHieu,
@@ -136,6 +137,7 @@ public class SanPhamService extends SellingApplicationImpl<SanPham, Integer> {
                        sp.ID,
                        sp.Ma,
                        nv.Ma AS MaNV,
+                       nv.Ten AS TenNV,
                        sp.Ten, 
                        sp.NgayThem,
                        th.Ten AS ThuongHieu,

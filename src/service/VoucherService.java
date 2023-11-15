@@ -40,7 +40,19 @@ public class VoucherService extends SellingApplicationImpl<Voucher, Integer> {
 
     @Override
     public List<Voucher> selectAll() {
-        String sql = "select * from Voucher";
+        String sql = """
+                     SELECT
+                             dbo.Voucher.ID,
+                             dbo.Voucher.Ma,
+                             dbo.Voucher.Ten,
+                             dbo.NhanVien.Ma AS MaNV,
+                             dbo.NhanVien.Ten AS TenNV,
+                             dbo.Voucher.NgayTao
+                         FROM
+                             dbo.NhanVien
+                         INNER JOIN
+                             dbo.Voucher ON dbo.NhanVien.ID = dbo.Voucher.ID_NhanVien
+                     """;
 
         return this.selectBySql(sql);
     }
@@ -54,11 +66,10 @@ public class VoucherService extends SellingApplicationImpl<Voucher, Integer> {
             while (rs.next()) {
                 Voucher vc = new Voucher();
                 vc.setId(rs.getInt("ID"));
+                vc.setMa(rs.getString("Ma"));
                 vc.setTen(rs.getString("Ten"));
                 vc.setNgayTao(rs.getDate("NgayTao"));
-                vc.setGhiChu(rs.getString("GhiChu"));
-                vc.setTrangThai(rs.getBoolean("TrangThai"));
-                vc.setNv(new NhanVien(rs.getString("Ma")));
+                vc.setNv(new NhanVien(rs.getString("MaNV"), rs.getString("TenNV")));
 
                 list.add(vc);
             }

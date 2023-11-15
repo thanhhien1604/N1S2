@@ -42,6 +42,10 @@ public class SanPham {
         this.nhanVien = nhanVien;
     }
 
+    public SanPham(String ten) {
+        this.ten = ten;
+    }
+
     public Integer getId() {
         return id;
     }

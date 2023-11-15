@@ -27,6 +27,30 @@ public class SanPhamCT {
     public SanPhamCT() {
     }
 
+    public SanPhamCT(Integer id, Integer id_sanPham, Integer id_size, Integer id_mauSac, Integer id_chatLieu, Double gia, Integer soLuong, String maSP, Boolean trangThai, SanPham sanPham, Size size, MauSac mauSac, ChatLieu chatLieu) {
+        this.id = id;
+        this.id_sanPham = id_sanPham;
+        this.id_size = id_size;
+        this.id_mauSac = id_mauSac;
+        this.id_chatLieu = id_chatLieu;
+        this.gia = gia;
+        this.soLuong = soLuong;
+        this.maSP = maSP;
+        this.trangThai = trangThai;
+        this.sanPham = sanPham;
+        this.size = size;
+        this.mauSac = mauSac;
+        this.chatLieu = chatLieu;
+    }
+
+    public SanPhamCT(String maSP) {
+        this.maSP = maSP;
+    }
+
+    public SanPhamCT(SanPham sanPham) {
+        this.sanPham = sanPham;
+    }
+
     public Integer getId() {
         return id;
     }

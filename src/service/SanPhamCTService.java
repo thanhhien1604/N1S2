@@ -100,6 +100,7 @@ public class SanPhamCTService extends SellingApplicationImpl<SanPhamCT, Integer>
                             spct.ID,  
                             spct.MaSP, 
                             nv.Ma AS MaNV,
+                            nv.Ten AS TenNV,
                             sp.Ten AS TenSP, 
                             spct.Gia, 
                             spct.SoLuong, 
@@ -141,6 +142,7 @@ public class SanPhamCTService extends SellingApplicationImpl<SanPhamCT, Integer>
                         spct.ID,  
                         spct.MaSP, 
                         nv.Ma AS MaNV,
+                        nv.Ten AS TenNV,
                         sp.Ten AS TenSP, 
                         spct.Gia, 
                         spct.SoLuong, 
@@ -186,7 +188,7 @@ public class SanPhamCTService extends SellingApplicationImpl<SanPhamCT, Integer>
                 spct.setSanPham(new SanPham(rs.getString("TenSP"),
                         new ThuongHieu(rs.getString("ThuongHieu")),
                         new DanhMuc(rs.getString("DanhMuc")),
-                        new NhanVien(rs.getString("MaNV"))
+                        new NhanVien(rs.getString("MaNV"), rs.getString("TenNV"))
                 ));
                 spct.setSize(new Size(rs.getString("Size")));
                 spct.setMauSac(new MauSac(rs.getString("MauSac")));
@@ -207,6 +209,7 @@ public class SanPhamCTService extends SellingApplicationImpl<SanPhamCT, Integer>
                                 spct.ID,  
                                 spct.MaSP, 
                                 nv.Ma AS MaNV,
+                                nv.Ten AS TenNV,
                                 sp.Ten AS TenSP, 
                                 spct.Gia, 
                                 spct.SoLuong, 
@@ -232,7 +235,7 @@ public class SanPhamCTService extends SellingApplicationImpl<SanPhamCT, Integer>
                                 dbo.NhanVien nv ON sp.ID_NhanVien = nv.ID
                             JOIN 
                                 dbo.ThuongHieu th ON sp.ID_ThuongHieu = th.ID
-                     WHERE sp.Ten LIKE ? OR dm.Ten LIKE ? OR th.Ten LIKE ?
+                     WHERE sp.Ten LIKE ? OR dm.Ten LIKE ? OR th.Ten LIKE ? 
                      """;
         return this.selectBySql(sql, "%" + keyword + "%%",
                 "%" + keyword + "%%",
@@ -248,6 +251,7 @@ public class SanPhamCTService extends SellingApplicationImpl<SanPhamCT, Integer>
                             spct.ID,  
                             spct.MaSP, 
                             nv.Ma AS MaNV,
+                            nv.Ten AS TenNV,
                             sp.Ten AS TenSP, 
                             spct.Gia, 
                             spct.SoLuong, 
@@ -310,5 +314,42 @@ public class SanPhamCTService extends SellingApplicationImpl<SanPhamCT, Integer>
             throw new RuntimeException();
         }
         return list;
+    }
+
+    public List<SanPhamCT> selectTotal(String keyword) {
+        String sql = """
+                        SELECT 
+                            spct.ID,  
+                            spct.MaSP, 
+                            nv.Ma AS MaNV,
+                            nv.Ten AS TenNV,
+                            sp.Ten AS TenSP, 
+                            spct.Gia, 
+                            spct.SoLuong, 
+                            sz.Ten AS Size, 
+                            ms.Ten AS MauSac, 
+                            cl.Ten AS ChatLieu, 
+                            dm.Ten AS DanhMuc, 
+                            th.Ten AS ThuongHieu, 
+                            spct.TrangThai
+                        FROM 
+                            dbo.SanPhamChiTiet spct
+                        JOIN 
+                            dbo.SanPham sp ON spct.ID_SP = sp.ID
+                        JOIN 
+                            dbo.MauSac ms ON spct.ID_MauSac = ms.ID
+                        JOIN 
+                            dbo.Size sz ON spct.ID_Size = sz.ID
+                        JOIN 
+                            dbo.ChatLieu cl ON spct.ID_ChatLieu = cl.ID
+                        JOIN 
+                            dbo.DanhMuc dm ON sp.ID_DanhMuc = dm.ID
+                        JOIN 
+                            dbo.NhanVien nv ON sp.ID_NhanVien = nv.ID
+                        JOIN 
+                            dbo.ThuongHieu th ON sp.ID_ThuongHieu = th.ID
+                        WHERE sp.Ten LIKE ? AND spct.TrangThai = CAST(1 AS bit)
+                     """;
+        return this.selectBySql(sql, "%" + keyword + "%%");
     }
 }
