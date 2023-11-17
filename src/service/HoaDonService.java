@@ -20,6 +20,19 @@ public class HoaDonService extends SellingApplicationImpl<HoaDon, Integer> {
 
     @Override
     public void insert(HoaDon entity) {
+        String sql = """
+                     INSERT INTO [dbo].[HoaDon]
+                                ([NgayTao]
+                                ,[TongTien]
+                                ,[TrangThai]
+                                ,[ID_NhanVien])
+                          VALUES(?, ?, ?, ?)
+                     """;
+        JdbcHelper.update(sql,
+                entity.getNgayTao(),
+                entity.getTongTien(),
+                entity.getTrangThai(),
+                entity.getIdNV());
     }
 
     @Override
@@ -48,6 +61,30 @@ public class HoaDonService extends SellingApplicationImpl<HoaDon, Integer> {
                      WHERE hd.ID = ?
                      """;
         List<HoaDon> list = this.selectBySql(sql, id);
+
+        if (list == null) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public HoaDon selectByMa(String ma) {
+        String sql = """
+                     SELECT 
+                         hd.ID, 
+                         hd.Ma, 
+                         nv.Ma AS MaNV,
+                         nv.Ten AS TenNV,
+                         hd.NgayTao, 
+                         hd.TongTien, 
+                         hd.TrangThai
+                     FROM 
+                         dbo.HoaDon hd
+                     JOIN 
+                         dbo.NhanVien nv ON hd.ID_NhanVien = nv.ID
+                     WHERE hd.Ma LIKE ?
+                     """;
+        List<HoaDon> list = this.selectBySql(sql, "%" + ma + "%");
 
         if (list == null) {
             return null;

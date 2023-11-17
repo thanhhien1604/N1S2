@@ -241,6 +241,7 @@ public class Form_SanPham extends javax.swing.JPanel {
         txtGia.setText(String.valueOf(spct.getGia()));
         txtSoLuong.setText(String.valueOf(spct.getSoLuong()));
         cbbTrangThai.setSelectedItem(spct.getTrangThai() ? "Đang bán" : "Ngừng bán");
+        txtMaSP.setText(spct.getMaSP());
     }
 
     private void editForm() {

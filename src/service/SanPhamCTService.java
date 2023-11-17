@@ -83,6 +83,18 @@ public class SanPhamCTService extends SellingApplicationImpl<SanPhamCT, Integer>
                 entity.getId());
     }
 
+    public void updateSoLuong(SanPhamCT entity) {
+        String sql = """
+                     UPDATE [dbo].[SanPhamChiTiet]
+                        SET SoLuong = ?
+                      WHERE ID = ?
+                     """;
+
+        JdbcHelper.update(sql,
+                entity.getSoLuong(),
+                entity.getId());
+    }
+
     @Override
     public void delete(Integer id) {
         String sql = """
@@ -129,6 +141,47 @@ public class SanPhamCTService extends SellingApplicationImpl<SanPhamCT, Integer>
                      WHERE spct.ID = ?
                      """;
         List<SanPhamCT> list = this.selectBySql(sql, id);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public SanPhamCT selectByMa(String ma) {
+        String sql = """
+                    SELECT 
+                            spct.ID,  
+                            spct.MaSP, 
+                            nv.Ma AS MaNV,
+                            nv.Ten AS TenNV,
+                            sp.Ten AS TenSP, 
+                            spct.Gia, 
+                            spct.SoLuong, 
+                            sz.Ten AS Size, 
+                            ms.Ten AS MauSac, 
+                            cl.Ten AS ChatLieu, 
+                            dm.Ten AS DanhMuc, 
+                            th.Ten AS ThuongHieu, 
+                            spct.TrangThai
+                        FROM 
+                            dbo.SanPhamChiTiet spct
+                        JOIN 
+                            dbo.SanPham sp ON spct.ID_SP = sp.ID
+                        JOIN 
+                            dbo.MauSac ms ON spct.ID_MauSac = ms.ID
+                        JOIN 
+                            dbo.Size sz ON spct.ID_Size = sz.ID
+                        JOIN 
+                            dbo.ChatLieu cl ON spct.ID_ChatLieu = cl.ID
+                        JOIN 
+                            dbo.DanhMuc dm ON sp.ID_DanhMuc = dm.ID
+                        JOIN 
+                            dbo.NhanVien nv ON sp.ID_NhanVien = nv.ID
+                        JOIN 
+                            dbo.ThuongHieu th ON sp.ID_ThuongHieu = th.ID
+                     WHERE spct.MaSP LIKE ?
+                     """;
+        List<SanPhamCT> list = this.selectBySql(sql, "%" + ma + "%");
         if (list.isEmpty()) {
             return null;
         }

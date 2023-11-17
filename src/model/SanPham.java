@@ -42,7 +42,8 @@ public class SanPham {
         this.nhanVien = nhanVien;
     }
 
-    public SanPham(String ten) {
+    public SanPham(String ma, String ten) {
+        this.ma = ma;
         this.ten = ten;
     }
 
