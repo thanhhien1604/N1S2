@@ -330,6 +330,7 @@ public class Form_SanPham extends javax.swing.JPanel {
         try {
             service.update(spct);
             this.fillTable();
+            service.selectAll();
             JOptionPane.showMessageDialog(this, "Sửa dữ liệu thành công!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi truy vấn dữ liệu!");

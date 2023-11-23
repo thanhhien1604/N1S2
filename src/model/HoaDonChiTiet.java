@@ -17,17 +17,15 @@ public class HoaDonChiTiet {
     private String SDT_KH;
     private Integer idSP;
     private Integer idHD;
-    private Integer idKH;
     private Integer idVC;
     private SanPhamCT spct;
     private HoaDon hd;
-    private KhachHang kh;
     private VoucherCT vcct;
 
     public HoaDonChiTiet() {
     }
 
-    public HoaDonChiTiet(Integer id, Double gia, Integer soLuong, Double tongTien, String SDT_KH, Integer idSP, Integer idHD, Integer idKH, Integer idVC, SanPhamCT spct, HoaDon hd, KhachHang kh, VoucherCT vcct) {
+    public HoaDonChiTiet(Integer id, Double gia, Integer soLuong, Double tongTien, String SDT_KH, Integer idSP, Integer idHD, Integer idVC, SanPhamCT spct, HoaDon hd, VoucherCT vcct) {
         this.id = id;
         this.gia = gia;
         this.soLuong = soLuong;
@@ -35,11 +33,9 @@ public class HoaDonChiTiet {
         this.SDT_KH = SDT_KH;
         this.idSP = idSP;
         this.idHD = idHD;
-        this.idKH = idKH;
         this.idVC = idVC;
         this.spct = spct;
         this.hd = hd;
-        this.kh = kh;
         this.vcct = vcct;
     }
 
@@ -99,14 +95,6 @@ public class HoaDonChiTiet {
         this.idHD = idHD;
     }
 
-    public Integer getIdKH() {
-        return idKH;
-    }
-
-    public void setIdKH(Integer idKH) {
-        this.idKH = idKH;
-    }
-
     public Integer getIdVC() {
         return idVC;
     }
@@ -131,14 +119,6 @@ public class HoaDonChiTiet {
         this.hd = hd;
     }
 
-    public KhachHang getKh() {
-        return kh;
-    }
-
-    public void setKh(KhachHang kh) {
-        this.kh = kh;
-    }
-
     public VoucherCT getVcct() {
         return vcct;
     }
@@ -147,4 +127,7 @@ public class HoaDonChiTiet {
         this.vcct = vcct;
     }
 
+    public Double tongTien() {
+        return this.soLuong * this.gia;
+    }
 }

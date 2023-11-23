@@ -25,18 +25,32 @@ public class HoaDonService extends SellingApplicationImpl<HoaDon, Integer> {
                                 ([NgayTao]
                                 ,[TongTien]
                                 ,[TrangThai]
-                                ,[ID_NhanVien])
-                          VALUES(?, ?, ?, ?)
+                                ,[ID_NhanVien]
+                                ,[ID_KhachHang])
+                          VALUES(?, ?, ?, ?, ?)
                      """;
         JdbcHelper.update(sql,
                 entity.getNgayTao(),
                 entity.getTongTien(),
                 entity.getTrangThai(),
-                entity.getIdNV());
+                entity.getIdNV(),
+                entity.getIdKH());
     }
 
     @Override
     public void update(HoaDon entity) {
+        String sql = """
+                     UPDATE [dbo].[HoaDon]
+                        SET [TongTien] = ?
+                           ,[TrangThai] = ?
+                           ,[ID_KhachHang] = ?
+                      WHERE ID = ?
+                     """;
+        JdbcHelper.update(sql,
+                entity.getTongTien(),
+                entity.getTrangThai(),
+                entity.getIdKH(),
+                entity.getId());
     }
 
     @Override
