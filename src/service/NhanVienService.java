@@ -118,7 +118,11 @@ public class NhanVienService extends SellingApplicationImpl<NhanVien, Integer> {
     }
 
     public NhanVien selectByMa(String ma) {
-        List<NhanVien> list = this.selectBySql(selectByMa, ma);
+        String sql = """
+                        select * from NhanVien
+                        WHERE Ma like ?
+                        """;
+        List<NhanVien> list = this.selectBySql(sql, "%" + ma + "%");
         if (list.isEmpty()) {
             return null;
         } else {

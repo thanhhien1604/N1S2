@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-/**
- *
- * @author ledin
- */
 public class SanPhamCT {
 
     private Integer id;
@@ -47,8 +39,11 @@ public class SanPhamCT {
         this.maSP = maSP;
     }
 
-    public SanPhamCT(SanPham sanPham) {
+    public SanPhamCT(SanPham sanPham, Size size, MauSac mauSac, ChatLieu chatLieu) {
         this.sanPham = sanPham;
+        this.size = size;
+        this.mauSac = mauSac;
+        this.chatLieu = chatLieu;
     }
 
     public Integer getId() {

@@ -26,13 +26,38 @@ public class Validated {
         if (phoneNumber == null) {
             return false;
         }
-        
+
         String repex = "^[0-9]{9}$";
         return phoneNumber.matches(repex);
     }
-    
-    public static Boolean isPassword(char[] pass){
+
+    public static Boolean isPassword(char[] pass) {
         String passString = new String(pass).trim();
         return passString.matches("^[a-zA-Z0-9]{6,15}$");
+    }
+
+    public static boolean checkEmpty(String... str) {
+        for (String string : str) {
+            if (!isEmpty(string)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isNumericDouble(String numeric) {
+        if (numeric == null) {
+            return false;
+        }
+        String regex = "^[+]?(?!0$)[0-9]*\\.?[0-9]+$";
+        return numeric.matches(regex);
+    }
+
+    public static boolean isNumericInt(String numeric) {
+        if (numeric == null) {
+            return false;
+        }
+        String regex = "^[+]?[0-9]+$";
+        return numeric.matches(regex);
     }
 }

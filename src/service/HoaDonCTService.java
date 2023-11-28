@@ -1,17 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.ChatLieu;
 import model.HoaDon;
 import model.HoaDonChiTiet;
+import model.MauSac;
 import model.SanPham;
 import model.SanPhamCT;
+import model.Size;
 import repository.JdbcHelper;
 
 /**
@@ -28,17 +27,15 @@ public class HoaDonCTService extends SellingApplicationImpl<HoaDonChiTiet, Integ
                                 ,[SoLuongSP]
                                 ,[TongTien]
                                 ,[ID_SanPhamCT]
-                                ,[ID_HoaDon]
-                                ,[ID_VoucherCT])
-                          VALUES (?, ?, ?, ?, ?, ?)
+                                ,[ID_HoaDon])
+                          VALUES (?, ?, ?, ?, ?)
                      """;
         JdbcHelper.update(sql,
                 entity.getGia(),
                 entity.getSoLuong(),
                 entity.getTongTien(),
                 entity.getIdSP(),
-                entity.getIdHD(),
-                entity.getIdVC()
+                entity.getIdHD()
         );
     }
 
@@ -71,6 +68,9 @@ public class HoaDonCTService extends SellingApplicationImpl<HoaDonChiTiet, Integ
                             hd.Ma AS MaHD,
                             sp.Ma AS MaSP,
                             sp.Ten AS TenSP,
+                            size.Ten AS Size,
+                            ms.Ten AS Mau,
+                            cl.Ten AS ChatLieu,
                             hdct.GiaBan,
                             hdct.SoLuongSP,
                             hdct.TongTien,
@@ -81,6 +81,12 @@ public class HoaDonCTService extends SellingApplicationImpl<HoaDonChiTiet, Integ
                             dbo.HoaDon hd ON hdct.ID_HoaDon = hd.ID
                         JOIN
                             dbo.SanPhamChiTiet spct ON hdct.ID_SanPhamCT = spct.ID
+                        JOIN
+                            dbo.Size size ON spct.Id_Size = size.ID
+                        JOIN
+                            dbo.MauSac ms ON spct.Id_MauSac = ms.ID
+                        JOIN
+                            dbo.ChatLieu cl ON spct.Id_ChatLieu = cl.ID
                         JOIN
                             dbo.SanPham sp ON spct.ID_SP = sp.ID
                      WHERE hdct.ID = ?
@@ -126,22 +132,31 @@ public class HoaDonCTService extends SellingApplicationImpl<HoaDonChiTiet, Integ
     public List<HoaDonChiTiet> selectByMaHD(String maHD) {
         String sql = """
                      SELECT
-                         hdct.ID,
-                         hd.Ma AS MaHD,
-                         sp.Ma AS MaSP,
-                         sp.Ten AS TenSP,
-                         hdct.GiaBan,
-                         hdct.SoLuongSP,
-                         hdct.TongTien,
-                         hdct.ID_SanPhamCT
-                     FROM
-                         dbo.HoaDonChiTiet hdct
-                     JOIN
-                         dbo.HoaDon hd ON hdct.ID_HoaDon = hd.ID
-                     JOIN
-                         dbo.SanPhamChiTiet spct ON hdct.ID_SanPhamCT = spct.ID
-                     JOIN
-                         dbo.SanPham sp ON spct.ID_SP = sp.ID
+                             hdct.ID,
+                             hd.Ma AS MaHD,
+                             sp.Ma AS MaSP,
+                             sp.Ten AS TenSP,
+                             size.Ten AS Size,
+                             ms.Ten AS Mau,
+                             cl.Ten AS ChatLieu,
+                             hdct.GiaBan,
+                             hdct.SoLuongSP,
+                             hdct.TongTien,
+                             hdct.ID_SanPhamCT
+                         FROM
+                             dbo.HoaDonChiTiet hdct
+                         JOIN
+                             dbo.HoaDon hd ON hdct.ID_HoaDon = hd.ID
+                         JOIN
+                             dbo.SanPhamChiTiet spct ON hdct.ID_SanPhamCT = spct.ID
+                         JOIN
+                             dbo.Size size ON spct.Id_Size = size.ID
+                         JOIN
+                             dbo.MauSac ms ON spct.Id_MauSac = ms.ID
+                         JOIN
+                             dbo.ChatLieu cl ON spct.Id_ChatLieu = cl.ID
+                         JOIN
+                             dbo.SanPham sp ON spct.ID_SP = sp.ID
                      WHERE hd.Ma LIKE ?
                      """;
 
@@ -155,18 +170,27 @@ public class HoaDonCTService extends SellingApplicationImpl<HoaDonChiTiet, Integ
                          hd.Ma AS MaHD,
                          sp.Ma AS MaSP,
                          sp.Ten AS TenSP,
+                         size.Ten AS Size,
+                         ms.Ten AS Mau,
+                         cl.Ten AS ChatLieu,
                          hdct.GiaBan,
                          hdct.SoLuongSP,
                          SUM(hdct.TongTien) AS TongTien,
                          hdct.ID_SanPhamCT
                      FROM
-                         dbo.HoaDonChiTiet hdct
-                     JOIN
-                         dbo.HoaDon hd ON hdct.ID_HoaDon = hd.ID
-                     JOIN
-                         dbo.SanPhamChiTiet spct ON hdct.ID_SanPhamCT = spct.ID
-                     JOIN
-                         dbo.SanPham sp ON spct.ID_SP = sp.ID
+                            dbo.HoaDonChiTiet hdct
+                        JOIN
+                            dbo.HoaDon hd ON hdct.ID_HoaDon = hd.ID
+                        JOIN
+                            dbo.SanPhamChiTiet spct ON hdct.ID_SanPhamCT = spct.ID
+                        JOIN
+                            dbo.Size size ON spct.Id_Size = size.ID
+                        JOIN
+                            dbo.MauSac ms ON spct.Id_MauSac = ms.ID
+                        JOIN
+                            dbo.ChatLieu cl ON spct.Id_ChatLieu = cl.ID
+                        JOIN
+                            dbo.SanPham sp ON spct.ID_SP = sp.ID
                      WHERE hd.Ma LIKE ?
                      GROUP BY
                          hd.Ma
@@ -178,22 +202,31 @@ public class HoaDonCTService extends SellingApplicationImpl<HoaDonChiTiet, Integ
     public List<HoaDonChiTiet> selectByMaSP(String maSP) {
         String sql = """
                      SELECT
-                         hdct.ID,
-                         hd.Ma AS MaHD,
-                         sp.Ma AS MaSP,
-                         sp.Ten AS TenSP,
-                         hdct.GiaBan,
-                         hdct.SoLuongSP,
-                         hdct.TongTien,
-                         hdct.ID_SanPhamCT
-                     FROM
-                         dbo.HoaDonChiTiet hdct
-                     JOIN
-                         dbo.HoaDon hd ON hdct.ID_HoaDon = hd.ID
-                     JOIN
-                         dbo.SanPhamChiTiet spct ON hdct.ID_SanPhamCT = spct.ID
-                     JOIN
-                         dbo.SanPham sp ON spct.ID_SP = sp.ID
+                            hdct.ID,
+                            hd.Ma AS MaHD,
+                            sp.Ma AS MaSP,
+                            sp.Ten AS TenSP,
+                            size.Ten AS Size,
+                            ms.Ten AS Mau,
+                            cl.Ten AS ChatLieu,
+                            hdct.GiaBan,
+                            hdct.SoLuongSP,
+                            hdct.TongTien,
+                            hdct.ID_SanPhamCT
+                        FROM
+                            dbo.HoaDonChiTiet hdct
+                        JOIN
+                            dbo.HoaDon hd ON hdct.ID_HoaDon = hd.ID
+                        JOIN
+                            dbo.SanPhamChiTiet spct ON hdct.ID_SanPhamCT = spct.ID
+                        JOIN
+                            dbo.Size size ON spct.Id_Size = size.ID
+                        JOIN
+                            dbo.MauSac ms ON spct.Id_MauSac = ms.ID
+                        JOIN
+                            dbo.ChatLieu cl ON spct.Id_ChatLieu = cl.ID
+                        JOIN
+                            dbo.SanPham sp ON spct.ID_SP = sp.ID
                      WHERE sp.Ma LIKE ?
                      """;
 
@@ -215,8 +248,13 @@ public class HoaDonCTService extends SellingApplicationImpl<HoaDonChiTiet, Integ
                 hdct.setTongTien(rs.getDouble("TongTien"));
                 hdct.setIdSP(rs.getInt("ID_SanPhamCT"));
                 hdct.setHd(new HoaDon(rs.getString("MaHD")));
-                hdct.setSpct(new SanPhamCT(new SanPham(rs.getString("MaSP"),
-                        rs.getString("TenSP"))));
+                hdct.setSpct(new SanPhamCT(
+                        new SanPham(rs.getString("MaSP"),
+                                rs.getString("TenSP")),
+                        new Size(rs.getString("Size")),
+                        new MauSac(rs.getString("Mau")),
+                        new ChatLieu(rs.getString("ChatLieu"))
+                ));
 
                 list.add(hdct);
             }
